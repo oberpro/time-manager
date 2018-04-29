@@ -7,7 +7,6 @@ export class TimeEntry {
     id: string;
     private work: Work[];
     private break: Break[];
-    private salaryPerHour: number;
     private comment: string = '';
     private location: WorkLocation = null;
 
