@@ -1,7 +1,7 @@
 # TimeManager #
 (c) 2018 oberpro  
 The TimeManager is an API created for analyzing and store your work time.  
-The API is __not for commercial use__.  
+ 
 ### This API is created with TypeScript and Node.js ###
 ## Planned Features ##
 * Store Worked Time with

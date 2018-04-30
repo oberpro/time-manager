@@ -9,7 +9,7 @@ export class Duration {
     }
 
     addMinutes(m: number) {
-        this.hours += Math.ceil(m / 60);
+        this.hours += Math.floor((this.minutes + m) / 60);
         this.minutes += m % 60;
     }
 
@@ -19,7 +19,7 @@ export class Duration {
     }
 
     removeMinutes(m: number) {
-        this.hours -= Math.ceil(m / 60);
+        this.hours -= Math.floor(m / 60);
         this.minutes -= m % 60;
     }
 

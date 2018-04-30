@@ -1,17 +1,42 @@
 export class Testing {
 
+    private static runs: number = 0;
+    private static successcnt: number = 0;
+    public static init() {
+        Testing.runs = 0;
+        Testing.successcnt = 0;
+    }
+
+    private static success() {
+        Testing.runs += 1;
+        Testing.successcnt += 1;
+    }
+
+    private static failue() {
+        Testing.runs += 1;
+    }
+
+    public static logResult() {
+        let v = (Testing.successcnt / Testing.runs) * 100;
+        console.log(Testing.successcnt + " of " + Testing.runs + " runs Successfull (" + v.toFixed(2) + "%)");
+    }
+
     public static assertTrue(value: boolean) {
         if (!value) {
-            throw ("[FAILED] " + Testing.getErrorCaller());
+            Testing.failue();
+            console.log("[FAILED] " + Testing.getErrorCaller());
         } else {
+            Testing.success();
             console.info("[SUCCESS] " + Testing.getErrorCaller());
         }
     }
 
     public static assertEquals(a: any, b: any) {
         if (a !== b) {
-            throw ("[FAILED] " + Testing.getErrorCaller());
+            Testing.failue();
+            console.log("[FAILED] " + Testing.getErrorCaller());
         } else {
+            Testing.success();
             console.info("[SUCCESS] " + Testing.getErrorCaller());
         }
     }
