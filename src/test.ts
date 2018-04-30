@@ -1,13 +1,15 @@
 import { Testing } from "./testing";
 import { Duration } from "./core/duration";
+import { DateTime } from "./core/datetime";
 
 // TESTS HERE
-class DurationClassTest {
+class MainClassTest {
 
     constructor() {
         Testing.init();
         //LIST ALL TEST CASES HERE
         this.durationTest();
+        this.dateTimeTests();
         Testing.logResult();
     }
 
@@ -16,6 +18,7 @@ class DurationClassTest {
         this.addHoursTest_1();
         this.addMinutesTest_1();
         this.addDurationTest_1();
+        this.removeMinutesTest_1();
     }
 
     addHoursTest_1() {
@@ -33,14 +36,37 @@ class DurationClassTest {
         Testing.assertEquals(d.getDecimalMinutes(), 0.25);
     }
 
+    removeMinutesTest_1() {
+        let d = new Duration(0, 20);
+        d.removeMinutes(10);
+        Testing.assertEquals(d.getMinutes(), 10);
+        d.set(1, 23);
+        d.removeMinutes(24);
+        Testing.assertEquals(d.getHours(), 0);
+        Testing.assertEquals(d.getMinutes(), 59);
+        d.set(5, 10);
+        d.removeMinutes(135);
+        Testing.assertEquals(d.getHours(), 2);
+        Testing.assertEquals(d.getMinutes(), 55);
+    }
+
     addDurationTest_1() {
         let a = new Duration(1, 11);
         let b = new Duration(10, 70);
         a.addDuration(b);
         Testing.assertEquals(a.getHours(), 12);
         Testing.assertEquals(a.getMinutes(), 21);
+    }
 
+    dateTimeTests() {
+        //DateTime.ts tests
+        this.basicDateTimeTest_1();
+    }
+
+    basicDateTimeTest_1() {
+        let d = new DateTime(2018, 1, 1);//1.1.2018
+        Testing.assertEquals(d.getAmountOfDaysOfMonth(), 31);
     }
 }
 
-new DurationClassTest();
+new MainClassTest();
