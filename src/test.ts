@@ -61,11 +61,39 @@ class MainClassTest {
     dateTimeTests() {
         //DateTime.ts tests
         this.basicDateTimeTest_1();
+        this.addDateTimeTest_1();
     }
 
     basicDateTimeTest_1() {
         let d = new DateTime(2018, 1, 1);//1.1.2018
-        Testing.assertEquals(d.getAmountOfDaysOfMonth(), 31);
+        Testing.assertEquals(d.getAmountOfDays(), 31);
+        d.setDay(0);
+        Testing.assertEquals(d.getDay(), 31);
+        d.setDay(12);//12.1.2018
+        Testing.assertEquals(d.getRemainingAmountOfDays(), 19);
+    }
+
+    addDateTimeTest_1() {
+        let d = new DateTime(2018, 1, 1);//1.1.2018
+        d.addYears(2);
+        Testing.assertEquals(d.getYear(), 2020);
+        d.addMonths(11);
+        Testing.assertEquals(d.getMonth(), 12);
+        d.addMonths(1);
+        Testing.assertEquals(d.getYear(), 2021);
+        Testing.assertEquals(d.getMonth(), 1);
+        Testing.assertEquals(d.getDay(), 1);
+        d.addDays(20);
+        Testing.assertEquals(d.getDay(), 21);
+        d.addDays(11);
+        Testing.assertEquals(d.getDay(), 1);
+        Testing.assertEquals(d.getMonth(), 2);
+        d.addDays(27);
+        Testing.assertEquals(d.getDay(), 28);
+        Testing.assertEquals(d.getMonth(), 2);
+        d.addDays(31);//28.2.2021 + 32 days = 1.4.2021
+        Testing.assertEquals(d.getDay(), 1);
+        Testing.assertEquals(d.getMonth(), 4);
     }
 }
 

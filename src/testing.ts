@@ -34,7 +34,7 @@ export class Testing {
     public static assertEquals(a: any, b: any) {
         if (a !== b) {
             Testing.failue();
-            console.log("[FAILED] " + Testing.getErrorCaller());
+            console.log("[FAILED] " + Testing.getErrorCaller(), a, "should be", b);
         } else {
             Testing.success();
             console.info("[SUCCESS] " + Testing.getErrorCaller());

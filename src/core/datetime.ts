@@ -26,6 +26,83 @@ export class DateTime {
         this.second = second || d.getSeconds();
     }
 
+    set(year: number, month: number, day: number, hour: number, minute: number, second: number) {
+        this.setDate(year, month, day);
+        this.setTime(hour, minute, second);
+    }
+
+    /*
+    Sets the date
+    @param month the month between 1 and 12
+    @param day the day between 1 and 31
+        If the Amount of days is bigger than allowed or 0, the value is set to the max
+    */
+    setDate(year: number, month: number, day: number) {
+        this.setYear(year);
+        this.setMonth(month);
+        this.setDay(day);
+    }
+
+    setYear(year: number) {
+        this.year = year;
+    }
+
+    setMonth(month: number) {
+        this.month = month % 12;
+    }
+
+
+    setDay(day: number) {
+        let max = this.getAmountOfDays();
+        if (day == 0) {
+            this.day = max;
+        } else {
+            this.day = Math.min(day, max);
+        }
+    }
+
+    setTime(hours: number, minutes: number, seconds: number) {
+        this.setHours(hours);
+        this.setMinutes(minutes);
+        this.setSeconds(seconds);
+    }
+
+    setHours(hours: number) {
+        this.hour = hours % 24;
+    }
+
+    setMinutes(minutes: number) {
+        this.minute = minutes % 60;
+    }
+
+    setSeconds(seconds: number) {
+        this.second = seconds % 60;
+    }
+
+    getYear() {
+        return this.year;
+    }
+
+    getMonth() {
+        return this.month;
+    }
+
+    getDay() {
+        return this.day;
+    }
+
+    getHours() {
+        return this.hour;
+    }
+
+    getMinutes() {
+        return this.minute;
+    }
+
+    getSeconds() {
+        return this.second;
+    }
+
     /*
     Sets the time to 00:00:00
     */
@@ -55,8 +132,18 @@ export class DateTime {
         this.day = d.getDate();
     }
 
-    getAmountOfDaysOfMonth() {
+    getAmountOfDays() {
         let d = new Date(this.year, this.month, 0);
+        return d.getDate();
+    }
+
+
+    getRemainingAmountOfDays() {
+        return this.getAmountOfDays() - this.day;
+    }
+
+    static getAmountOfDaysForMonth(year: number, month: number): number {
+        let d = new Date(year, month, 0);
         return d.getDate();
     }
 
@@ -77,20 +164,34 @@ export class DateTime {
     */
     addMonths(months: number, incrementYears?: boolean) {
         if (incrementYears == true || incrementYears == null) {
-            this.year += Math.floor((this.month + months) / 12);
+            this.year += Math.floor((this.month - 1 + months) / 12);
         }
-        this.month = (this.month + months) % 12;
+        this.month = (((this.month - 1) + months) % 12) + 1;
     }
 
     addDays(days: number, incrementMonths?: boolean, incrementYears?: boolean) {
-        let dif = 0
+        let months = 0;
+        let add = days;
         do {
-            dif = Math.floor((this.day + days) / this.getAmountOfDaysOfMonth());
-            this.day = (this.day + days) % this.getAmountOfDaysOfMonth();
-            if ((incrementMonths == true || incrementMonths == null) && dif > 0) {
+            let remainingDays = this.getRemainingAmountOfDays();
+            let addDays = Math.min(remainingDays, add);
+            if (remainingDays == 0) {
+                this.day = 1;
+                --add;
+                if (incrementMonths == true || incrementMonths == null) {
+                    this.addMonths(1, incrementYears);
+                }
+            } else {
+                //todo
+            }
+            months = Math.floor((this.day + addDays - 1) / this.getAmountOfDays());
+            console.log("adding", addDays, "days to", this.day, "and increment month by", 1, "of", months);
+            this.day = (((this.day + addDays) - 1) % this.getAmountOfDays()) + 1;
+            add -= addDays;
+            if ((incrementMonths == true || incrementMonths == null) && months > 0) {
                 this.addMonths(1, incrementYears);
             }
-        } while (dif > 0);
+        } while (months > 0);
     }
 
 
