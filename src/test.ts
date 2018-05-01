@@ -62,6 +62,7 @@ class MainClassTest {
         //DateTime.ts tests
         this.basicDateTimeTest_1();
         this.addDateTimeTest_1();
+        this.removeDateTimeTest_1();
     }
 
     basicDateTimeTest_1() {
@@ -94,6 +95,32 @@ class MainClassTest {
         d.addDays(31);//28.2.2021 + 31 days = 31.3.2021
         Testing.assertEquals(d.getDay(), 31);
         Testing.assertEquals(d.getMonth(), 3);
+        d.setDate(2018, 1, 1);
+        d.addDays(32, false);
+        Testing.assertEquals(d.getMonth(), 1);
+        Testing.assertEquals(d.getDay(), 2);
+    }
+
+    removeDateTimeTest_1() {
+        let d = new DateTime(2018, 1, 1);//1.1.2018
+        //years
+        d.removeYears(1);
+        Testing.assertEquals(d.getYear(), 2017);
+        //month
+        d.removeMonths(5);
+        Testing.assertEquals(d.getMonth(), 8);
+        Testing.assertEquals(d.getYear(), 2016);
+        d.setDate(2017, 1, 1);
+        d.removeMonths(20);
+        Testing.assertEquals(d.getMonth(), 5);
+        Testing.assertEquals(d.getYear(), 2015);
+        //days
+        d.setDate(2018, 1, 1);//1.1.2018
+        d.removeDays(20);// 12.12.2017
+        Testing.assertEquals(d.getDay(), 12);
+        Testing.assertEquals(d.getMonth(), 12);
+        Testing.assertEquals(d.getYear(), 2017);
+
     }
 }
 

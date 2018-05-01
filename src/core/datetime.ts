@@ -167,15 +167,48 @@ export class DateTime {
             this.year += Math.floor((this.month - 1 + months) / 12);
         }
         this.month = (((this.month - 1) + months) % 12) + 1;
+        return this.month;
     }
 
     addDays(days: number, incrementMonths?: boolean, incrementYears?: boolean) {
         let allDays = this.day + days;
         while (allDays > this.getAmountOfDays()) {
             allDays -= this.getAmountOfDays();
-            this.addMonths(1, incrementYears);
+            if (incrementMonths == true || incrementMonths == null) {
+                this.addMonths(1, incrementYears);
+            }
         }
         this.day = allDays;
+        return this.day;
+    }
+
+    removeYears(years: number) {
+        this.year -= years;
+        return this.year;
+    }
+
+    removeMonths(months: number, decrementYears?: boolean) {
+        let m = this.month - (months + 1);
+        if (m < 0) {
+            this.month = (m % 12) + 13;
+            let years = Math.ceil(Math.abs(m / 12));
+            if (years > 0 && decrementYears == true || decrementYears == null) {
+                this.removeYears(years);
+            }
+        }
+        return this.month;
+    }
+
+    removeDays(days: number, decrementMonths?: boolean, decrementYears?: boolean) {
+        let allDays = this.day - days;
+        while (allDays < 1) {
+            if (decrementMonths == true || decrementMonths == null) {
+                this.removeMonths(1, decrementYears);
+            }
+            allDays += this.getAmountOfDays();
+        }
+        this.day = allDays;
+        return this.day;
     }
 
 
