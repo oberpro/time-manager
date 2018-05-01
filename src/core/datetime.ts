@@ -261,5 +261,19 @@ export class DateTime {
         return this.hour;
     }
 
+    /*
+    @param minutes >= 1
+    @param incrementHours set to true if allowed (default: true)
+    @param incrementDays set to true if allowed (default: false)
+    @param incrementMonths set to true if allowed (default: false)
+    @param incrementYears set to true if allowed (default: false)
+    */
+    addMinutes(minutes: number, incrementHours?: boolean, incrementDays?: boolean, incrementMonths?: boolean, incrementYears?: boolean) {
+        if (this.minute + minutes >= 60 && (incrementHours === true || incrementHours == null)) {
+            this.addHours(Math.floor((this.minute + minutes) / 60), incrementDays, incrementMonths, incrementYears);
+        }
+        this.minute = (this.minute + minutes) % 60;
+        return this.minute;
+    }
 
 }

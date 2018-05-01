@@ -67,6 +67,8 @@ class MainClassTest {
         //time
         this.addTimeTest_1();
         this.removeTimeTest_1();
+        this.addTimeTest_2();
+        this.removeTimeTest_2();
     }
 
     basicDateTimeTest_1() {
@@ -164,6 +166,29 @@ class MainClassTest {
         Testing.assertEquals(d.getDay(), 30);
         Testing.assertEquals(d.getMonth(), 12);
         Testing.assertEquals(d.getYear(), 2017);
+    }
+
+    addTimeTest_2() {
+        let d = new DateTime(2018, 4, 3, 17, 12, 1);//3.4.2018 17:12:01
+        d.addMinutes(12);
+        Testing.assertEquals(d.getMinutes(), 24);
+        Testing.assertEquals(d.getHours(), 17);
+        d.addMinutes(72, false);
+        Testing.assertEquals(d.getMinutes(), 36);
+        Testing.assertEquals(d.getHours(), 17);
+        d.setTime(17, 11, 2);//17:11:02
+        d.addMinutes(55);
+        Testing.assertEquals(d.getMinutes(), 6);
+        Testing.assertEquals(d.getHours(), 18);
+        d.set(2018, 4, 3, 17, 11, 2);//3.4.2018 17:11:02
+        d.addMinutes(555, true, true, true, true);
+        Testing.assertEquals(d.getMinutes(), 26);
+        Testing.assertEquals(d.getHours(), 2);
+        Testing.assertEquals(d.getDay(), 4);
+    }
+
+    removeTimeTest_2() {
+
     }
 }
 
