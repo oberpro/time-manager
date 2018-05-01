@@ -60,9 +60,13 @@ class MainClassTest {
 
     dateTimeTests() {
         //DateTime.ts tests
+        //date
         this.basicDateTimeTest_1();
         this.addDateTimeTest_1();
         this.removeDateTimeTest_1();
+        //time
+        this.addTimeTest_1();
+        this.removeTimeTest_1();
     }
 
     basicDateTimeTest_1() {
@@ -121,6 +125,45 @@ class MainClassTest {
         Testing.assertEquals(d.getMonth(), 12);
         Testing.assertEquals(d.getYear(), 2017);
 
+    }
+
+    addTimeTest_1() {
+        let d = new DateTime(2018, 1, 1);//1.1.2018
+        d.setTime(12, 11, 1);//12:11:01
+        d.addHours(5);
+        Testing.assertEquals(d.getHours(), 17);
+        d.addHours(7);
+        Testing.assertEquals(d.getHours(), 0);
+        d.setHours(17);
+        d.addHours(8);
+        Testing.assertEquals(d.getHours(), 1);
+        d.setTime(11, 11, 11);//11:11:11
+        d.addHours(20, true, true, true);
+        Testing.assertEquals(d.getHours(), 7);
+        Testing.assertEquals(d.getDay(), 2);
+        d.setDate(2018, 1, 31);
+        d.setTime(11, 11, 11);
+        d.addHours(20, true, true, true);
+        Testing.assertEquals(d.getHours(), 7);
+        Testing.assertEquals(d.getDay(), 1);
+        Testing.assertEquals(d.getMonth(), 2);
+    }
+
+    removeTimeTest_1() {
+        let d = new DateTime(2018, 1, 2);//2.1.2018
+        d.setTime(11, 11, 11);
+        d.removeHours(5);
+        Testing.assertEquals(d.getHours(), 6);
+        d.set(2018, 1, 2, 11, 11, 11);
+        d.removeHours(20, true);
+        Testing.assertEquals(d.getHours(), 15);
+        Testing.assertEquals(d.getDay(), 1);
+        d.set(2018, 1, 5, 11, 11, 11);//5.1.2018 11:11:11
+        d.removeHours(135, true, true, true);
+        Testing.assertEquals(d.getHours(), 20);
+        Testing.assertEquals(d.getDay(), 30);
+        Testing.assertEquals(d.getMonth(), 12);
+        Testing.assertEquals(d.getYear(), 2017);
     }
 }
 

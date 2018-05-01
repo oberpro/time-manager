@@ -165,7 +165,7 @@ export class DateTime {
     @param months >= 1
     */
     addMonths(months: number, incrementYears?: boolean) {
-        if (incrementYears == true || incrementYears == null) {
+        if (incrementYears === true || incrementYears == null) {
             this.year += Math.floor((this.month - 1 + months) / 12);
         }
         this.month = (((this.month - 1) + months) % 12) + 1;
@@ -179,7 +179,7 @@ export class DateTime {
         let allDays = this.day + days;
         while (allDays > this.getAmountOfDays()) {
             allDays -= this.getAmountOfDays();
-            if (incrementMonths == true || incrementMonths == null) {
+            if (incrementMonths === true || incrementMonths == null) {
                 this.addMonths(1, incrementYears);
             }
         }
@@ -203,7 +203,7 @@ export class DateTime {
         if (m < 0) {
             this.month = (m % 12) + 13;
             let years = Math.ceil(Math.abs(m / 12));
-            if (years > 0 && decrementYears == true || decrementYears == null) {
+            if (years > 0 && decrementYears === true || decrementYears == null) {
                 this.removeYears(years);
             }
         }
@@ -216,7 +216,7 @@ export class DateTime {
     removeDays(days: number, decrementMonths?: boolean, decrementYears?: boolean) {
         let allDays = this.day - days;
         while (allDays < 1) {
-            if (decrementMonths == true || decrementMonths == null) {
+            if (decrementMonths === true || decrementMonths == null) {
                 this.removeMonths(1, decrementYears);
             }
             allDays += this.getAmountOfDays();
@@ -232,7 +232,14 @@ export class DateTime {
     @param incrementYears set to true if allowed (default: false)
     */
     addHours(hours: number, incrementDays?: boolean, incrementMonths?: boolean, incrementYears?: boolean) {
-
+        if (incrementDays === true) {
+            let days = Math.floor((this.hour + hours) / 24);
+            if (days > 0) {
+                this.addDays(days, incrementMonths == null ? false : incrementMonths, incrementYears == null ? false : incrementYears);
+            }
+        }
+        this.hour = (this.hour + hours) % 24;
+        return this.hour;
     }
     /*
     @param hours >= 1
@@ -241,7 +248,17 @@ export class DateTime {
     @param decrementYears set to true if allowed (default: false)
     */
     removeHours(hours: number, decrementDays?: boolean, decrementMonths?: boolean, decrementYears?: boolean) {
-
+        if (decrementDays === true && this.hour - hours < 0) {
+            let days = Math.abs(Math.floor((this.hour - hours) / 24));
+            if (days > 0) {
+                this.removeDays(days, decrementMonths == null ? false : decrementMonths, decrementYears == null ? false : decrementYears);
+            }
+        }
+        this.hour = (this.hour - hours) % 24;
+        if (this.hour < 0) {
+            this.hour += 24;
+        }
+        return this.hour;
     }
 
 
