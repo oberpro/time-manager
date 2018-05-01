@@ -170,28 +170,12 @@ export class DateTime {
     }
 
     addDays(days: number, incrementMonths?: boolean, incrementYears?: boolean) {
-        let months = 0;
-        let add = days;
-        do {
-            let remainingDays = this.getRemainingAmountOfDays();
-            let addDays = Math.min(remainingDays, add);
-            if (remainingDays == 0) {
-                this.day = 1;
-                --add;
-                if (incrementMonths == true || incrementMonths == null) {
-                    this.addMonths(1, incrementYears);
-                }
-            } else {
-                //todo
-            }
-            months = Math.floor((this.day + addDays - 1) / this.getAmountOfDays());
-            console.log("adding", addDays, "days to", this.day, "and increment month by", 1, "of", months);
-            this.day = (((this.day + addDays) - 1) % this.getAmountOfDays()) + 1;
-            add -= addDays;
-            if ((incrementMonths == true || incrementMonths == null) && months > 0) {
-                this.addMonths(1, incrementYears);
-            }
-        } while (months > 0);
+        let allDays = this.day + days;
+        while (allDays > this.getAmountOfDays()) {
+            allDays -= this.getAmountOfDays();
+            this.addMonths(1, incrementYears);
+        }
+        this.day = allDays;
     }
 
 

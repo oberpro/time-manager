@@ -91,9 +91,9 @@ class MainClassTest {
         d.addDays(27);
         Testing.assertEquals(d.getDay(), 28);
         Testing.assertEquals(d.getMonth(), 2);
-        d.addDays(31);//28.2.2021 + 32 days = 1.4.2021
-        Testing.assertEquals(d.getDay(), 1);
-        Testing.assertEquals(d.getMonth(), 4);
+        d.addDays(31);//28.2.2021 + 31 days = 31.3.2021
+        Testing.assertEquals(d.getDay(), 31);
+        Testing.assertEquals(d.getMonth(), 3);
     }
 }
 
