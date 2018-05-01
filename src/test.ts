@@ -188,7 +188,7 @@ class MainClassTest {
     }
 
     removeTimeTest_2() {
-
+        let d = new DateTime(2018, 4, 3, 17, 12, 1);//3.4.2018 17:12:01
     }
 }
 
