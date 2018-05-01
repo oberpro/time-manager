@@ -151,6 +151,7 @@ export class DateTime {
     Adds the amount of years to the current year
     @example this.year=2018. years=1 Result: this.year=2019
     @return returns the new year
+    @param years >= 1
     */
     addYears(years: number) {
         this.year += years;
@@ -161,6 +162,7 @@ export class DateTime {
     Adds the amount of months to the current month.
     if @param incrementYears is set to true (default: true),
     the amount of years will be incremented.
+    @param months >= 1
     */
     addMonths(months: number, incrementYears?: boolean) {
         if (incrementYears == true || incrementYears == null) {
@@ -170,6 +172,9 @@ export class DateTime {
         return this.month;
     }
 
+    /*
+    @param days >= 1
+    */
     addDays(days: number, incrementMonths?: boolean, incrementYears?: boolean) {
         let allDays = this.day + days;
         while (allDays > this.getAmountOfDays()) {
@@ -182,11 +187,17 @@ export class DateTime {
         return this.day;
     }
 
+    /*
+    @param years >= 1
+    */
     removeYears(years: number) {
         this.year -= years;
         return this.year;
     }
 
+    /*
+    @param months >= 1
+    */
     removeMonths(months: number, decrementYears?: boolean) {
         let m = this.month - (months + 1);
         if (m < 0) {
@@ -199,6 +210,9 @@ export class DateTime {
         return this.month;
     }
 
+    /*
+    @param days >= 1
+    */
     removeDays(days: number, decrementMonths?: boolean, decrementYears?: boolean) {
         let allDays = this.day - days;
         while (allDays < 1) {
@@ -209,6 +223,25 @@ export class DateTime {
         }
         this.day = allDays;
         return this.day;
+    }
+
+    /*
+    @param hours >= 1
+    @param incrementDays set to true if allowed (default: false)
+    @param incrementMonths set to true if allowed (default: false)
+    @param incrementYears set to true if allowed (default: false)
+    */
+    addHours(hours: number, incrementDays?: boolean, incrementMonths?: boolean, incrementYears?: boolean) {
+
+    }
+    /*
+    @param hours >= 1
+    @param decrementDays set to true if allowed (default: false)
+    @param decrementMonths set to true if allowed (default: false)
+    @param decrementYears set to true if allowed (default: false)
+    */
+    removeHours(hours: number, decrementDays?: boolean, decrementMonths?: boolean, decrementYears?: boolean) {
+
     }
 
 
