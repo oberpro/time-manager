@@ -149,6 +149,14 @@ export class DateTime {
         return d.getDate();
     }
 
+    static getDaysOfYear(year: number): number {
+        return DateTime.isLeapYear(year) ? 366 : 365;
+    }
+
+    static isLeapYear(year: number): boolean {
+        return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+    }
+
     /*
     Adds the amount of years to the current year
     @example this.year=2018. years=1 Result: this.year=2019
@@ -520,6 +528,31 @@ export class DateTime {
         return this.compareTime(time, ignoreSeconds) === 0;
     }
 
+    getDaysBetween(other: DateTime): number {
+        let days = 0;
+        for (let y = this.year; y <= other.getYear(); y++) {
+            let ms = y == this.year ? this.month : 1;
+            let md = y == other.getYear() ? other.getMonth() : 12;
+            for (let m = ms; m <= md; m++) {
+                if ((m == ms && y == this.year)) {
+
+                    let v = DateTime.getAmountOfDaysForMonth(y, m) - this.day;
+                    if (m == md) {
+                        v = this.day;
+                    }
+                    days += v;
+                } else if ((m == md && y == other.getYear())) {
+                    let v = other.getDay();
+                    days += v;
+                } else {
+                    let v = DateTime.getAmountOfDaysForMonth(y, m);
+                    days += v;
+                }
+            }
+        }
+        return days;
+    }
+
     getDuration(other: DateTime): Duration {
         if (this.equalsDate(other)) {
             //Date is the same, only calculate with time
@@ -528,7 +561,10 @@ export class DateTime {
             return new Duration(tmp.getHours(), tmp.getMinutes());
         } else {
             //calculate days
+            let tmp = DateTime.copy(other);
+            let days = this.getDaysBetween(other);
+            tmp.removeTime(this);
+            return new Duration(tmp.getHours() + (days * 24), tmp.getMinutes());
         }
-        return new Duration(0, 0);
     }
 }

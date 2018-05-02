@@ -81,6 +81,9 @@ class MainClassTest {
         this.equalityAndCompareDateTimeTest_3();
 
         this.durationTest_DateTime_1();
+        this.durationTest_DateTime_2();
+
+        this.daysBetweeTest_1();
     }
 
     basicDateTimeTest_1() {
@@ -333,6 +336,36 @@ class MainClassTest {
         d = a.getDuration(b); // 11:45 to 14:03 -> 2:18
         Testing.assertEquals(d.getHours(), 2);
         Testing.assertEquals(d.getMinutes(), 18);
+    }
+
+    daysBetweeTest_1() {
+        let a = new DateTime(2018, 1, 1, 11, 30, 0);// 1.1.2018
+        let b = new DateTime(2018, 3, 1, 16, 55, 0);// 1.3.2018
+        let days = a.getDaysBetween(b);
+        Testing.assertEquals(days, 59);
+
+        a = new DateTime(2017, 1, 1, 11, 30, 0);// 1.1.2018
+        b = new DateTime(2018, 3, 1, 16, 55, 0);// 1.3.2018
+        days = a.getDaysBetween(b);
+        Testing.assertEquals(days, 424);
+    }
+
+    durationTest_DateTime_2() {
+        let a = new DateTime(2018, 1, 1, 11, 30, 0);//11:30
+        let b = new DateTime(2018, 1, 2, 16, 55, 0);//16:55
+        let d = a.getDuration(b);// 11:30 to 16:55 + 1 day -> 29:25 h
+        Testing.assertEquals(d.getHours(), 29);
+        Testing.assertEquals(d.getMinutes(), 25);
+        b.setDate(2018, 2, 2);//1.2.2018
+        d = a.getDuration(b);// 11:30 to 16:55 + 32 days -> 749:25 h
+        Testing.assertEquals(d.getHours(), 773);
+        Testing.assertEquals(d.getMinutes(), 25);
+
+        a = new DateTime(2017, 1, 1, 11, 30, 0);// 1.1.2018
+        b = new DateTime(2018, 3, 1, 16, 55, 0);// 1.3.2018
+        d = a.getDuration(b);// 11:30 - 16:55 + 424 days -> 10181:25;
+        Testing.assertEquals(d.getHours(), 10181);
+        Testing.assertEquals(d.getMinutes(), 25);
     }
 }
 
