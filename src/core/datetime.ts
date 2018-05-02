@@ -1,3 +1,5 @@
+import { Duration } from "./duration";
+
 export class DateTime {
     private year: number;
     private month: number;
@@ -193,6 +195,32 @@ export class DateTime {
     removeYears(years: number) {
         this.year -= years;
         return this.year;
+    }
+
+    public static copyDate(date: DateTime): DateTime {
+        let t = new DateTime();
+        t.setYear(date.getYear());
+        t.setMonth(date.getMonth());
+        t.setDay(date.getDay());
+        t.setTime(0, 0, 0);
+        return t;
+    }
+
+    public static copyTime(time: DateTime): DateTime {
+        let t = new DateTime();
+        t.setHours(time.getHours());
+        t.setMinutes(time.getMinutes());
+        t.setSeconds(time.getSeconds());
+        return t;
+    }
+
+    public static copy(date: DateTime): DateTime {
+        let t = new DateTime();
+        t.setYear(date.getYear());
+        t.setMonth(date.getMonth());
+        t.setDay(date.getDay());
+        t.setTime(date.getHours(), date.getMinutes(), date.getSeconds());
+        return t;
     }
 
     /*
@@ -490,5 +518,17 @@ export class DateTime {
 
     equalsTime(time: DateTime, ignoreSeconds?: boolean): boolean {
         return this.compareTime(time, ignoreSeconds) === 0;
+    }
+
+    getDuration(other: DateTime): Duration {
+        if (this.equalsDate(other)) {
+            //Date is the same, only calculate with time
+            let tmp = DateTime.copy(other);
+            tmp.removeTime(this);
+            return new Duration(tmp.getHours(), tmp.getMinutes());
+        } else {
+            //calculate days
+        }
+        return new Duration(0, 0);
     }
 }

@@ -79,6 +79,8 @@ class MainClassTest {
         this.equalityAndCompareDateTimeTest_1();
         this.equalityAndCompareDateTimeTest_2();
         this.equalityAndCompareDateTimeTest_3();
+
+        this.durationTest_DateTime_1();
     }
 
     basicDateTimeTest_1() {
@@ -318,6 +320,19 @@ class MainClassTest {
         Testing.assertEquals(a.compare(b), 1);
         a.setTime(17, 30, 0);
         Testing.assertTrue(a.equals(b));
+    }
+
+    durationTest_DateTime_1() {
+        let a = new DateTime(2018, 1, 1, 11, 30, 0);//11:30
+        let b = new DateTime(2018, 1, 1, 16, 55, 0);//16:55
+        let d = a.getDuration(b);// 11:30 to 16:55 -> 5:25 h
+        Testing.assertEquals(d.getHours(), 5);
+        Testing.assertEquals(d.getMinutes(), 25);
+        a.setTime(11, 45, 0);
+        b.setTime(14, 3, 0);
+        d = a.getDuration(b); // 11:45 to 14:03 -> 2:18
+        Testing.assertEquals(d.getHours(), 2);
+        Testing.assertEquals(d.getMinutes(), 18);
     }
 }
 
