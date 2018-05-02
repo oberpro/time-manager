@@ -4,7 +4,7 @@ import { Duration } from "./duration";
 export class Work {
     private startTime: DateTime = null;
     private endTime: DateTime = null;
-    private salaryPerHour: number;
+    private salaryPerHour: number = 1;
 
     constructor(start?: DateTime) {
         this.startTime = start || null;
@@ -18,8 +18,29 @@ export class Work {
         this.endTime = new DateTime();
     }
 
+    setStartTime(time: DateTime) {
+        if (this.endTime == null || (time && time.compare(this.endTime) === -1)) {
+            this.startTime = time;
+            return true;
+        }
+        return false;
+    }
+
+    setEndTime(time: DateTime) {
+        if (this.startTime != null && this.startTime.compare(time) === -1) {
+            this.endTime = time;
+            return true;
+        }
+        return false;
+    }
+
     getDuration(): Duration {
-        return null;
+        return this.isStopped() ? this.startTime.getDuration(this.endTime) : this.startTime.getDuration(new DateTime());
+    }
+
+    calculateSalary(): number {
+        let d = this.getDuration();
+        return d.getHours() * this.salaryPerHour + d.getDecimalMinutes() * this.salaryPerHour;
     }
 
     isStopped(): boolean {
@@ -32,5 +53,9 @@ export class Work {
 
     getEndTime(): DateTime {
         return this.endTime;
+    }
+
+    setSalaryPerHour(salary: number) {
+        this.salaryPerHour = salary;
     }
 }

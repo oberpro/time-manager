@@ -1,6 +1,7 @@
 import { Testing } from "./testing";
 import { Duration } from "./core/duration";
 import { DateTime } from "./core/datetime";
+import { Work } from "./core/work";
 
 // TESTS HERE
 class MainClassTest {
@@ -10,6 +11,8 @@ class MainClassTest {
         //LIST ALL TEST CASES HERE
         this.durationTest();
         this.dateTimeTests();
+        this.workTests();
+        //Log result
         Testing.logResult();
     }
 
@@ -366,6 +369,22 @@ class MainClassTest {
         d = a.getDuration(b);// 11:30 - 16:55 + 424 days -> 10181:25;
         Testing.assertEquals(d.getHours(), 10181);
         Testing.assertEquals(d.getMinutes(), 25);
+    }
+
+    workTests() {
+        this.workTest_1();
+    }
+
+    workTest_1() {
+        let w = new Work(new DateTime(2018, 1, 1, 12, 30, 0));// 1.1.2018 12:30
+        let e = new DateTime(2018, 1, 1, 16, 45, 0);// 1.1.2018 16:45
+        Testing.assertTrue(w.setEndTime(e));//Working duration: 4:15 h
+        w.setSalaryPerHour(1);// 4,25 €
+        Testing.assertTrue(w.isStopped());
+        let d = w.getDuration();
+        Testing.assertEquals(d.getHours(), 4);
+        Testing.assertEquals(d.getMinutes(), 15);
+        Testing.assertEquals(w.calculateSalary(), 4.25);
     }
 }
 
