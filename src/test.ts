@@ -64,6 +64,8 @@ class MainClassTest {
         this.basicDateTimeTest_1();
         this.addDateTimeTest_1();
         this.removeDateTimeTest_1();
+        this.addDateTest_2();
+        this.removeDateTest_2();
         //time
         this.addTimeTest_1();
         this.removeTimeTest_1();
@@ -71,6 +73,8 @@ class MainClassTest {
         this.removeTimeTest_2();
         this.addTimeTest_3();
         this.removeTimeTest_3();
+        this.addTimeTest_4();
+        this.removeTimeTest_4();
     }
 
     basicDateTimeTest_1() {
@@ -229,6 +233,44 @@ class MainClassTest {
         Testing.assertEquals(d.getSeconds(), 9);
         Testing.assertEquals(d.getMinutes(), 19);
         Testing.assertEquals(d.getHours(), 9);
+    }
+
+    addTimeTest_4() {
+        let a = new DateTime(2018, 4, 3, 17, 12, 5);
+        let b = new DateTime();
+        b.setTime(1, 59, 5);
+        a.addTime(b);
+        Testing.assertEquals(a.getHours(), 19);
+        Testing.assertEquals(a.getMinutes(), 11);
+        Testing.assertEquals(a.getSeconds(), 10);
+    }
+
+    removeTimeTest_4() {
+        let a = new DateTime(2018, 4, 3, 17, 12, 5);
+        let b = new DateTime();
+        b.setTime(1, 59, 5);
+        a.removeTime(b);
+        Testing.assertEquals(a.getHours(), 15);
+        Testing.assertEquals(a.getMinutes(), 13);
+        Testing.assertEquals(a.getSeconds(), 0);
+    }
+
+    addDateTest_2() {
+        let a = new DateTime(2018, 1, 1);
+        let b = new DateTime(1, 5, 12);
+        a.addDate(b);
+        Testing.assertEquals(a.getYear(), 2019);
+        Testing.assertEquals(a.getMonth(), 6);
+        Testing.assertEquals(a.getDay(), 13);
+    }
+
+    removeDateTest_2() {
+        let a = new DateTime(2018, 1, 1);
+        let b = new DateTime(1, 5, 12);
+        a.removeDate(b, true, true);
+        Testing.assertEquals(a.getYear(), 2016);
+        Testing.assertEquals(a.getMonth(), 7);
+        Testing.assertEquals(a.getDay(), 20);
     }
 }
 

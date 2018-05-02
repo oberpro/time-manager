@@ -206,6 +206,8 @@ export class DateTime {
             if (years > 0 && decrementYears === true || decrementYears == null) {
                 this.removeYears(years);
             }
+        } else {
+            this.month = this.month - months;
         }
         return this.month;
     }
@@ -334,5 +336,57 @@ export class DateTime {
         }
         return this.second;
     }
+
+    /*
+    @param time the time of the datetime object is used
+    @param incrementDays set to true if allowed (default: false)
+    @param incrementMonths set to true if allowed (default: false)
+    @param incrementYears set to true if allowed (default: false)
+    */
+    addTime(time: DateTime, incrementDays?: boolean, incrementMonths?: boolean, incrementYears?: boolean) {
+        this.addSeconds(time.getSeconds(), true, true, incrementDays, incrementMonths, incrementYears);
+        this.addMinutes(time.getMinutes(), true, incrementDays, incrementMonths, incrementYears);
+        this.addHours(time.getHours(), incrementDays, incrementMonths, incrementYears);
+        return this;
+    }
+
+    /*
+    @param time the time of the datetime object is used
+    @param decrementDays set to true if allowed (default: false)
+    @param decrementMonths set to true if allowed (default: false)
+    @param decrementYears set to true if allowed (default: false)
+    */
+    removeTime(time: DateTime, decrementDays?: boolean, decrementMonths?: boolean, decrementYears?: boolean) {
+        this.removeSeconds(time.getSeconds(), true, true, decrementDays, decrementMonths, decrementYears);
+        this.removeMinutes(time.getMinutes(), true, decrementDays, decrementMonths, decrementYears);
+        this.removeHours(time.getHours(), decrementDays, decrementMonths, decrementYears);
+        return this;
+    }
+
+    /*
+    @param date the date of the datetime object is used
+    @param incrementMonths set to true if allowed (default: true)
+    @param incrementYears set to true if allowed (default: true)
+    */
+    addDate(date: DateTime, incremenMonths?: boolean, incrementYears?: boolean) {
+        this.addDays(date.getDay(), incremenMonths, incrementYears);
+        this.addMonths(date.getMonth(), incrementYears);
+        this.addYears(date.getYear());
+        return this;
+    }
+
+    /*
+    @param date the date of the datetime object is used
+    @param decrementMonths set to true if allowed (default: true)
+    @param decrementYears set to true if allowed (default: true)
+    */
+    removeDate(date: DateTime, decrementMonths?: boolean, decrementYears?: boolean) {
+        this.removeDays(date.getDay(), decrementMonths, decrementYears);
+        this.removeMonths(date.getMonth(), decrementYears);
+        this.removeYears(date.getYear());
+        return this;
+    }
+
+
 
 }
