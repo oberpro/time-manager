@@ -276,4 +276,63 @@ export class DateTime {
         return this.minute;
     }
 
+    /*
+    @param minutes >= 1
+    @param decrementHours set to true if allowed (default: true)
+    @param decrementDays set to true if allowed (default: false)
+    @param decrementMonths set to true if allowed (default: false)
+    @param decrementYears set to true if allowed (default: false)
+    */
+    removeMinutes(minutes: number, decrementHours?: boolean, decrementDays?: boolean, decrementMonth?: boolean, decrementYears?: boolean) {
+        if (this.minute - minutes < 0 && (decrementHours === true || decrementHours == null)) {
+            let hours = Math.abs(Math.floor((this.minute - minutes) / 60));
+            if (hours > 0) {
+                this.removeHours(hours, decrementDays, decrementMonth, decrementYears);
+            }
+        }
+        this.minute = (this.minute - minutes) % 60;
+        if (this.minute < 0) {
+            this.minute += 60;
+        }
+        return this.minute;
+    }
+
+    /*
+    @param seconds >= 1
+    @param incrementMinutes set to true if allowed (default:true)
+    @param incrementHours set to true if allowed (default: true)
+    @param incrementDays set to true if allowed (default: false)
+    @param incrementMonths set to true if allowed (default: false)
+    @param incrementYears set to true if allowed (default: false)
+    */
+    addSeconds(seconds: number, incrementMinutes?: boolean, incrementHours?: boolean, incrementDays?: boolean, incrementMonths?: boolean, incrementYears?: boolean) {
+        if (this.second + seconds >= 60 && (incrementMinutes === true || incrementMinutes == null)) {
+            this.addMinutes(Math.floor((this.second + seconds) / 60), incrementHours, incrementDays, incrementMonths, incrementYears);
+        }
+        this.second = (this.second + seconds) % 60;
+        return this.second;
+    }
+
+    /*
+    @param seconds >= 1
+    @param decrement set to true if allowed (default: true)
+    @param decrementHours set to true if allowed (default: true)
+    @param decrementDays set to true if allowed (default: false)
+    @param decrementMonths set to true if allowed (default: false)
+    @param decrementYears set to true if allowed (default: false)
+    */
+    removeSeconds(seconds: number, decrementMinutes?: boolean, decrementHours?: boolean, decrementDays?: boolean, decrementMonths?: boolean, decrementYears?: boolean) {
+        if (this.second - seconds < 0 && (decrementMinutes === true || decrementMinutes == null)) {
+            let minutes = Math.abs(Math.floor((this.second - seconds) / 60));
+            if (minutes > 0) {
+                this.removeMinutes(minutes, decrementHours, decrementDays, decrementMonths, decrementYears);
+            }
+        }
+        this.second = (this.second - seconds) % 60;
+        if (this.second < 0) {
+            this.second += 60;
+        }
+        return this.second;
+    }
+
 }

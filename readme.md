@@ -12,3 +12,6 @@ The TimeManager is an API created for analyzing and store your work time.
     * Salary per Hour per working session.
 ## Implemented Features ##
 **None**
+
+### Testing ###
+* To test the datetime methods, verify at https://www.timeanddate.com/date/dateadded.html
