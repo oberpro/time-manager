@@ -75,6 +75,10 @@ class MainClassTest {
         this.removeTimeTest_3();
         this.addTimeTest_4();
         this.removeTimeTest_4();
+
+        this.equalityAndCompareDateTimeTest_1();
+        this.equalityAndCompareDateTimeTest_2();
+        this.equalityAndCompareDateTimeTest_3();
     }
 
     basicDateTimeTest_1() {
@@ -271,6 +275,49 @@ class MainClassTest {
         Testing.assertEquals(a.getYear(), 2016);
         Testing.assertEquals(a.getMonth(), 7);
         Testing.assertEquals(a.getDay(), 20);
+    }
+
+    equalityAndCompareDateTimeTest_1() {
+        let a = new DateTime(2018, 1, 1);
+        let b = new DateTime(2018, 1, 2);
+        Testing.assertEquals(a.compareDate(b), -1);
+        b.setDate(2017, 1, 1);
+        Testing.assertEquals(a.compareDate(b), 1);
+        b.setDate(2018, 5, 1);
+        Testing.assertEquals(a.compareDate(b), -1);
+        a.setDate(2018, 4, 5);
+        Testing.assertEquals(a.compareDate(b), -1);
+        b.setDate(2018, 4, 2);
+        Testing.assertEquals(a.compareDate(b), 1);
+        b.setDate(2018, 1, 1);
+        a.setDate(2018, 1, 1);
+        Testing.assertTrue(a.equalsDate(b));
+    }
+
+    equalityAndCompareDateTimeTest_2() {
+        let a = new DateTime();
+        let b = new DateTime();
+        a.setTime(17, 30, 0);
+        b.setTime(18, 30, 0);
+        Testing.assertEquals(a.compareTime(b), -1);
+        b.setTime(17, 31, 0);
+        Testing.assertEquals(a.compareTime(b), -1);
+        b.setTime(17, 29, 5);
+        Testing.assertEquals(a.compareTime(b), 1);
+        a.setTime(17, 0, 20);
+        b.setTime(17, 0, 21);
+        Testing.assertEquals(a.compareTime(b), -1);
+        Testing.assertTrue(a.equalsTime(b, true));
+        b.setTime(17, 0, 20);
+        Testing.assertTrue(a.equalsTime(b));
+    }
+
+    equalityAndCompareDateTimeTest_3() {
+        let a = new DateTime(2018, 1, 1, 17, 30, 1);
+        let b = new DateTime(2018, 1, 1, 17, 30, 0);
+        Testing.assertEquals(a.compare(b), 1);
+        a.setTime(17, 30, 0);
+        Testing.assertTrue(a.equals(b));
     }
 }
 

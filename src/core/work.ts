@@ -1,20 +1,36 @@
 import { DateTime } from "./datetime";
+import { Duration } from "./duration";
 
 export class Work {
-    private start: DateTime;
-    private end: DateTime;
+    private startTime: DateTime = null;
+    private endTime: DateTime = null;
     private salaryPerHour: number;
 
-    constructor(start: DateTime, end: DateTime) {
-        this.start = start;
-        this.end = end;
+    constructor(start?: DateTime) {
+        this.startTime = start || null;
     }
 
-    getStart(): DateTime {
-        return this.start;
+    start() {
+        this.startTime = new DateTime();
     }
 
-    getEnd(): DateTime {
-        return this.end;
+    stop() {
+        this.endTime = new DateTime();
+    }
+
+    getDuration(): Duration {
+        return null;
+    }
+
+    isStopped(): boolean {
+        return this.endTime != null;
+    }
+
+    getStartTime(): DateTime {
+        return this.startTime;
+    }
+
+    getEndTime(): DateTime {
+        return this.endTime;
     }
 }

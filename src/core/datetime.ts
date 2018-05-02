@@ -21,9 +21,9 @@ export class DateTime {
         this.month = month || d.getMonth() + 1;
         this.day = day || d.getDate();
 
-        this.hour = hour || d.getHours();
-        this.minute = minute || d.getMinutes();
-        this.second = second || d.getSeconds();
+        this.hour = hour == null ? d.getHours() : hour;
+        this.minute = minute == null ? d.getMinutes() : minute;
+        this.second = second == null ? d.getSeconds() : second;
     }
 
     set(year: number, month: number, day: number, hour: number, minute: number, second: number) {
@@ -387,4 +387,108 @@ export class DateTime {
         return this;
     }
 
+
+    /*
+    @return -1 if other DateTime is greater -> 1.1.2017 and 1.1.2018 = -1 because 2018 is greater than 2017
+    @return 1 if the other DateTime is smaller
+    @return 0 if the Date and Time are equals
+    */
+    compare(dateTime: DateTime): number {
+        let d = this.compareDate(dateTime);
+        if (d === 0) {
+            return this.compareTime(dateTime);
+        }
+        return d;
+    }
+
+    /*
+    @param time the date of the DateTime class will be used
+    @param ignoreDays if set to true, only month and year is checked. (default: false) 
+    */
+    compareDate(date: DateTime, ignoreDays?: boolean): number {
+        // 2018 > 2017
+        if (this.year > date.getYear()) {
+            return 1;
+        }
+        // 2017 < 2018
+        if (this.year < date.getYear()) {
+            return -1;
+        }
+        //2018 == 2018 -> years are equal
+        if (this.year === date.getYear()) {
+            // februar > januar (2 > 1)
+            if (this.month > date.getMonth()) {
+                return 1;
+            }
+            //januar < februar (1 < 2)
+            if (this.month < date.getMonth()) {
+                return -1;
+            }
+            //januar == januar
+            if (this.month === date.getMonth()) {
+                if (ignoreDays === true) {
+                    return 0;
+                } else {
+                    // 17. > 12.
+                    if (this.day > date.getDay()) {
+                        return 1;
+                    }
+                    // 12. < 17.
+                    if (this.day < date.getDay()) {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    /*
+    @param time the time of the DateTime class will be used
+    @param ignoreSeconds if set to true, only hours and minutes are checked. (default: false) 
+    */
+    compareTime(time: DateTime, ignoreSeconds?: boolean): number {
+        //17 > 12
+        if (this.hour > time.getHours()) {
+            return 1;
+        }
+        // 12 < 17
+        if (this.hour < time.getHours()) {
+            return -1;
+        }
+        // 17 == 17
+        if (this.hour === time.getHours()) {
+            if (this.minute > time.getMinutes()) {
+                return 1;
+            }
+            if (this.minute < time.getMinutes()) {
+                return -1;
+            }
+            if (this.minute === time.getMinutes()) {
+                if (ignoreSeconds === true) {
+                    return 0;
+                } else {
+                    if (this.second > time.getSeconds()) {
+                        return 1;
+                    }
+                    if (this.second < time.getSeconds()) {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    equals(dateTime: DateTime): boolean {
+        return this.equalsDate(dateTime) && this.equalsTime(dateTime);
+    }
+
+    equalsDate(date: DateTime, ignoreDays?: boolean): boolean {
+        return this.compareDate(date, ignoreDays) === 0;
+    }
+
+    equalsTime(time: DateTime, ignoreSeconds?: boolean): boolean {
+        return this.compareTime(time, ignoreSeconds) === 0;
+    }
 }
