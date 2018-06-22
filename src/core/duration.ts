@@ -1,3 +1,5 @@
+import { DateTime } from "./datetime";
+
 export class Duration {
 
     constructor(private hours: number, private minutes: number) {
@@ -64,5 +66,13 @@ export class Duration {
 
     toString(): string {
         return this.hours + ':' + this.minutes;
+    }
+
+    // Advanced Functionality
+    calculateEndDateBasedOnStartDate(startDate: DateTime): DateTime {
+        let end = DateTime.copy(startDate);
+        end.addHours(this.getHours(), true, true, true);
+        end.addMinutes(this.getMinutes(), true, true, true, true);
+        return end;
     }
 }

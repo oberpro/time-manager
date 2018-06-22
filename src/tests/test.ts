@@ -22,6 +22,7 @@ class MainClassTest {
         this.addMinutesTest_1();
         this.addDurationTest_1();
         this.removeMinutesTest_1();
+        this.additionalDurationTest_1();
     }
 
     addHoursTest_1() {
@@ -379,12 +380,29 @@ class MainClassTest {
         let w = new Work(new DateTime(2018, 1, 1, 12, 30, 0));// 1.1.2018 12:30
         let e = new DateTime(2018, 1, 1, 16, 45, 0);// 1.1.2018 16:45
         Testing.assertTrue(w.setEndTime(e));//Working duration: 4:15 h
-        w.setSalaryPerHour(1);// 4,25 €
+        w.setSalaryPerHour(1);//  4,25 € in total
         Testing.assertTrue(w.isStopped());
         let d = w.getDuration();
         Testing.assertEquals(d.getHours(), 4);
         Testing.assertEquals(d.getMinutes(), 15);
         Testing.assertEquals(w.calculateSalary(), 4.25);
+    }
+
+    additionalDurationTest_1() {
+        let d = new Duration(4, 15);
+        let startDate = new DateTime(2018, 1, 1, 12, 30, 0);// 1.1.2018 12:30
+        let endDate = d.calculateEndDateBasedOnStartDate(startDate);// 1.1.2018 16:45
+        Testing.assertEquals(endDate.getHours(), 16);
+        Testing.assertEquals(endDate.getMinutes(), 45);
+        Testing.assertEquals(endDate.getDay(), 1);
+
+        let d2 = new Duration(122, 1);
+        let startDate2 = new DateTime(2018, 1, 1, 12, 30, 0);// 1.1.2018 12:30
+        let endDate2 = d2.calculateEndDateBasedOnStartDate(startDate2);//6.1.2018 14:31:00
+        Testing.assertEquals(endDate2.getHours(), 14);
+        Testing.assertEquals(endDate2.getMinutes(), 31);
+        Testing.assertEquals(endDate2.getDay(), 6);
+        Testing.assertEquals(endDate2.getMonth(), 1);
     }
 }
 

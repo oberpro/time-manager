@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "test": "tsc && node dist/test.js"
+    "test": "tsc && node dist/tests/test.js"
   },
   "devDependencies": {
     "@types/es6-promise": "^3.3.0",
