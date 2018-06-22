@@ -388,6 +388,7 @@ class MainClassTest {
         Testing.assertEquals(w.calculateSalary(), 4.25);
     }
 
+
     additionalDurationTest_1() {
         let d = new Duration(4, 15);
         let startDate = new DateTime(2018, 1, 1, 12, 30, 0);// 1.1.2018 12:30
