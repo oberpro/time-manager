@@ -1,7 +1,7 @@
 import { Testing } from "./testing";
-import { Duration } from "./core/duration";
-import { DateTime } from "./core/datetime";
-import { Work } from "./core/work";
+import { Duration } from "../core/duration";
+import { DateTime } from "../core/datetime";
+import { Work } from "../core/work";
 
 // TESTS HERE
 class MainClassTest {
